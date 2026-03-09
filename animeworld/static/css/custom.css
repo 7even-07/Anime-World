@@ -1,0 +1,475 @@
+/* .cus-anime-world-details-img {
+    height: 250px;
+    border-radius: 30px;
+}
+
+.blog-item {
+    overflow: hidden;
+    transition: all 0.4s ease;
+    max-height: 500px;
+}
+
+.blog-filter li {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 15px;
+    color: #aaa;
+	padding: 16px 36px;
+	font-size: 16px;
+	font-weight: 700;
+	background: #6f2b95;
+}
+
+.blog-filter li.active {
+    color: #fff;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .blog-filter {
+    justify-content: flex-start;
+  }
+
+  .blog-filter li {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}
+
+.load-more {
+  padding: 14px 40px;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #00f7ff;
+  border: 2px solid #00f7ff;
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.load-more:hover {
+  background: #00f7ff;
+  color: #111;
+  box-shadow: 0 0 20px #00f7ff;
+} */
+
+
+/* ===== IMAGE FIX ===== */
+
+.cus-anime-world-details-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Mobile image height adjust */
+@media (max-width: 768px) {
+    .cus-anime-world-details-img {
+        height: 180px;
+    }
+}
+
+
+/* ===== BLOG ITEM FIX ===== */
+
+.blog-item {
+    overflow: hidden;
+    transition: all 0.4s ease;
+    max-height: none;   /* IMPORTANT: mobile me cut ho raha tha */
+    margin-bottom: 25px;
+}
+
+/* Blog image responsive */
+.blog-thumb img {
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+}
+
+
+/* ===== FILTER TAGS RESPONSIVE ===== */
+
+.blog-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0;
+    list-style: none;
+}
+
+.blog-filter li {
+    cursor: pointer;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #6f2b95;
+    color: #ddd;
+    border-radius: 25px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.blog-filter li.active {
+    background: #ff416c;
+    color: #fff;
+}
+
+/* Mobile scrollable tags */
+@media (max-width: 768px) {
+    .blog-filter {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .blog-filter::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* ===== LOAD MORE BUTTON ===== */
+
+.load-more {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: transparent;
+    color: #00f7ff;
+    border: 2px solid #00f7ff;
+    border-radius: 8px;
+    transition: 0.3s;
+    cursor: pointer;
+    width: auto;
+}
+
+/* Mobile button full width */
+@media (max-width: 576px) {
+    .load-more {
+        width: 100%;
+    }
+}
+
+.load-more:hover {
+    background: #00f7ff;
+    color: #111;
+    box-shadow: 0 0 15px #00f7ff;
+}
+
+.trending-blog-img {
+    height: 80px;
+    width: 80px;
+}
+
+.homepage-sidebar-banner {
+    height: 326px;
+    border-radius: 30px;
+}
+
+.white-text {
+    text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+}
+
+.cus-logo {
+    border-radius: 30px;
+}
+
+
+
+
+/* ===== Anime World Comics UI ===== */
+
+.awc-comic-detail-section {
+  padding: 40px 0;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.awc-comic-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+}
+
+.awc-comic-cover {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease;
+}
+
+.awc-comic-cover:hover {
+  transform: scale(1.03);
+}
+
+.awc-comic-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.awc-comic-categories {
+  margin-bottom: 15px;
+}
+
+.awc-category-badge {
+  display: inline-block;
+  background: #ef4444;
+  color: white;
+  padding: 6px 14px;
+  margin: 4px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.awc-category-badge:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+.awc-comic-desc {
+  margin: 15px 0;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* Buttons */
+
+.awc-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.awc-btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.awc-btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.awc-btn-dark {
+  background: #111827;
+  color: white;
+}
+
+.awc-btn-dark:hover {
+  background: #000000;
+}
+
+.awc-btn-outline-warning {
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+  background: transparent;
+}
+
+.awc-btn-outline-warning:hover {
+  background: #f59e0b;
+  color: black;
+}
+
+.awc-btn-outline-info {
+  border: 2px solid #06b6d4;
+  color: #06b6d4;
+  background: transparent;
+}
+
+.awc-btn-outline-info:hover {
+  background: #06b6d4;
+  color: black;
+}
+
+.awc-reading-buttons,
+.awc-action-buttons {
+  margin-top: 15px;
+}
+
+
+
+/* ===== Anime World Comics Related Section ===== */
+.awc-related-comics-section {
+    padding: 40px 0;
+    background: #0f172a;
+    color: #ffffff;
+}
+
+.awc-related-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #fcd34d;
+}
+
+.awc-related-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.awc-related-col {
+    text-align: center;
+}
+
+.awc-related-card {
+    display: block;
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.awc-related-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.awc-related-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.awc-related-title-text {
+    padding: 10px;
+    font-weight: 600;
+    color: #f3f4f6;
+    font-size: 1rem;
+}
+
+
+
+/* ===== Anime World Comics PDF Reader (Responsive) ===== */
+.awc-pdf-reader {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    color: #fff;
+}
+
+.awc-pdf-reader h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fcd34d;
+}
+
+/* PDF viewer container */
+#pdf-viewer {
+    width: 100%;
+    min-height: 500px;
+    background: #0f172a;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* Each page canvas */
+#pdf-viewer canvas {
+    display: block;
+    margin: 15px auto;
+    width: 100% !important; /* Fit mobile screens */
+    height: auto !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    border-radius: 6px;
+}
+
+/* Buttons container */
+.awc-pdf-buttons {
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* PDF navigation buttons */
+.awc-pdf-buttons button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex: 1 1 40%; /* Allow buttons to shrink and wrap on mobile */
+    max-width: 150px;
+}
+
+.awc-pdf-buttons button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .awc-pdf-reader {
+        padding: 15px;
+        margin: 15px auto;
+    }
+
+    .awc-pdf-reader h2 {
+        font-size: 1.5rem;
+    }
+
+    #pdf-viewer {
+        min-height: 350px;
+        padding: 5px;
+    }
+
+    .awc-pdf-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .awc-pdf-buttons button {
+        flex: 1 1 100%;
+        max-width: 100%;
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    #pdf-viewer {
+        min-height: 250px;
+    }
+
+    .awc-pdf-reader h2 {
+        font-size: 1.3rem;
+    }
+}

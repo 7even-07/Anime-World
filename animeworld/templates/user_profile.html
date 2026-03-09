@@ -1,0 +1,436 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ SITE_NAME }} | {{ request.user.username|capfirst }}</title>
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container light-style flex-grow-1 container-p-y">
+        <h4 class="font-weight-bold py-3 mb-4">
+            Account settings
+        </h4>
+        <div class="card overflow-hidden">
+            <div class="row no-gutters row-bordered row-border-light">
+                <div class="col-md-3 pt-0">
+                    <div class="list-group list-group-flush account-settings-links">
+                        <a class="list-group-item list-group-item-action {% if active_tab == 'general' %}active{% endif %}"
+                            data-toggle="list"
+                            href="#account-general">
+                            General
+                        </a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-change-password">Change password</a> -->
+                        <a class="list-group-item list-group-item-action {% if active_tab == 'info' %}active{% endif %}"
+                            data-toggle="list"
+                            href="#account-info">
+                            Info
+                        </a>
+                        <a class="list-group-item list-group-item-action {% if active_tab == 'social-links' %}active{% endif %}"
+                            data-toggle="list"
+                            href="#account-social-links">
+                            Social links
+                        </a>
+                        <a class="list-group-item list-group-item-action {% if active_tab == 'comics' %}active{% endif %}"                    data-toggle="list"
+                            href="#account-comics">
+                            Comics
+                        </a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-notifications">Notifications</a> -->
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="tab-content">
+                            <div class="tab-pane fade {% if active_tab == 'general' %}show active{% endif %}" id="account-general">
+                                <div class="card-body media align-items-center">
+                                    {% if request.user.userprofile.img_src %}
+                                        <img class="cus-user-profile-img" src="{{ request.user.userprofile.img_src.url }}" alt
+                                        class="d-block ui-w-80">
+                                    {% else %}
+                                        <img class="cus-user-profile-img" src="{% static 'img/profiles/gojo.jpg' %}" alt
+                                        class="d-block ui-w-80">
+                                    {% endif %}
+                                    
+                                    <div class="media-body ml-4">
+                                        <label class="btn btn-outline-primary">
+                                            Upload new photo
+                                            <input type="file" name="img_src" class="account-settings-fileinput">
+                                        </label> &nbsp;
+                                        <!-- <button type="button" class="btn btn-default md-btn-flat">Reset</button> -->
+                                        <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                    </div>
+                                </div>
+                                <hr class="border-light m-0">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="form-label">Username</label>
+                                        <input type="text" class="form-control mb-1" name="username" value="{{ user_form.username.value|default:request.user.username }}">
+                                        {% if user_form.username.errors %}
+                                            <div style="color:red">
+                                                {{ user_form.username.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" name="full_name" value="{{ user_profile_form.full_name.value|default:request.user.userprofile.full_name }}">
+                                        {% if user_profile_form.full_name.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.full_name.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">E-mail</label>
+                                        <input type="text" class="form-control mb-1" value="{{ request.user.email }}" readonly>
+                                        <!-- <div class="alert alert-warning mt-3">
+                                            Your email is not confirmed. Please check your inbox.<br>
+                                            <a href="javascript:void(0)">Resend confirmation</a>
+                                        </div> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Company</label>
+                                        <input type="text" class="form-control" name="company_name" value="{{ user_profile_form.company_name.value|default:request.user.userprofile.company_name }}">
+                                        {% if user_profile_form.company_name.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.company_name.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="tab-pane fade" id="account-change-password">
+                                <div class="card-body pb-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Current password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">New password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Repeat new password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="tab-pane fade {% if active_tab == 'info' %}show active{% endif %}" id="account-info">
+                                <div class="card-body pb-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Bio</label>
+                                        <textarea class="form-control" name="bio" rows="5">{{ user_profile_form.bio.value|default:request.user.userprofile.bio }}</textarea>
+
+                                        {% if user_profile_form.bio.errors %}
+                                        <div style="color:red">
+                                            {{ user_profile_form.bio.errors.0 }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Birthday</label>
+                                        <input type="date" class="form-control" name="dob" value="{{ user_profile_form.dob.value|default:request.user.userprofile.dob|date:'Y-m-d' }}">
+                                        {% if user_profile_form.dob.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.dob.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Country</label>
+                                        {{ user_profile_form.country }}
+                                        {% if user_profile_form.country.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.country.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <hr class="border-light m-0">
+                                <div class="card-body pb-2">
+                                    <h6 class="mb-4">Contacts</h6>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" class="form-control" name="phone" value="{{ user_profile_form.phone.value|default:request.user.userprofile.phone }}">
+                                        {% if user_profile_form.phone.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.phone.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Website</label>
+                                        <input type="text" class="form-control" name="website" value="{{ user_profile_form.website.value|default:request.user.userprofile.website }}">
+                                        {% if user_profile_form.website.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.website.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade {% if active_tab == 'social-links' %}show active{% endif %}" id="account-social-links">
+                                <div class="card-body pb-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Twitter</label>
+                                        <input type="text" class="form-control" name="twitter" value="{{ user_profile_form.twitter.value|default:request.user.userprofile.twitter }}">
+                                        {% if user_profile_form.twitter.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.twitter.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Facebook</label>
+                                        <input type="text" class="form-control" name="facebook" value="{{ user_profile_form.facebook.value|default:request.user.userprofile.facebook }}">
+                                        {% if user_profile_form.facebook.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.facebook.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Google+</label>
+                                        <input type="text" class="form-control" name="google" value="{{ user_profile_form.google.value|default:request.user.userprofile.google }}">
+                                        {% if user_profile_form.google.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.google.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">LinkedIn</label>
+                                        <input type="text" class="form-control" name="linkdin" value="{{ user_profile_form.linkdin.value|default:request.user.userprofile.linkdin }}">
+                                        {% if user_profile_form.linkdin.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.linkdin.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Instagram</label>
+                                        <input type="text" class="form-control" name="instagram" value="{{ user_profile_form.instagram.value|default:request.user.userprofile.instagram }}">
+                                        {% if user_profile_form.instagram.errors %}
+                                            <div style="color:red">
+                                                {{ user_profile_form.instagram.errors.0 }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="tab-pane fade" id="account-comics">
+                                <div class="row">
+                                    <a href="add-comics">Add more comics +</a>
+                                    <div class="col-lg-12">
+                                        {% if user_comics %}
+                                            {% for comic in user_comics %}
+                                                <div class="col-lg-4">
+                                                    <img style="height: 100px;width: 100px;" src="{{ comic.img_src.url }}" alt="">
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="tab-pane fade {% if active_tab == 'comics' %}show active{% endif %}" id="account-comics">
+                                <div class="container-fluid">
+
+                                    <!-- Top Button Row -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">My Comics</h5>
+                                        <a href="{% url 'add_comic' %}" target="_blank" class="btn btn-primary btn-sm mt-3">
+                                            Add More Comics +
+                                        </a>
+                                    </div>
+
+                                    <!-- Comics Grid -->
+                                    <div class="row">
+                                        {% if user_comics %}
+                                            {% for comic in user_comics %}
+                                                <div class="col-lg-3 col-md-4 col-6 mb-3">
+                                                    <a href="{% url 'edit_comic' comic.id %}" style="text-decoration: none;color: black;">
+                                                        <div class="card h-100 text-center">
+                                                            <img 
+                                                                src="{{ comic.img_src.url }}" 
+                                                                class="card-img-top img-fluid"
+                                                                style="height: 150px; object-fit: cover;"
+                                                                alt="{{ comic.title }}"
+                                                            >
+                                                            <div class="card-body p-2">
+                                                                <small class="fw-bold">{{ comic.title|capfirst }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>No comics uploaded yet.</p>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if user_comics.has_other_pages %}
+                                        <nav class="mt-3">
+                                            <ul class="pagination justify-content-center">
+
+                                                <!-- Previous -->
+                                                {% if user_comics.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" 
+                                                        href="?page={{ user_comics.previous_page_number }}&tab=comics">
+                                                        Previous
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">Previous</span>
+                                                    </li>
+                                                {% endif %}
+
+                                                <!-- Page Numbers -->
+                                                {% for num in user_comics.paginator.page_range %}
+                                                    {% if user_comics.number == num %}
+                                                        <li class="page-item active">
+                                                            <span class="page-link">{{ num }}</span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="page-item">
+                                                            <a class="page-link" 
+                                                            href="?page={{ num }}&tab=comics">
+                                                            {{ num }}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                <!-- Next -->
+                                                {% if user_comics.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" 
+                                                        href="?page={{ user_comics.next_page_number }}&tab=comics">
+                                                        Next
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">Next</span>
+                                                    </li>
+                                                {% endif %}
+
+                                            </ul>
+                                        </nav>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- <div class="tab-pane fade" id="account-notifications">
+                                <div class="card-body pb-2">
+                                    <h6 class="mb-4">Activity</h6>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" checked>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Email me when someone comments on my article</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" checked>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Email me when someone answers on my forum
+                                                thread</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input">
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Email me when someone follows me</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr class="border-light m-0">
+                                <div class="card-body pb-2">
+                                    <h6 class="mb-4">Application</h6>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" checked>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">News and announcements</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input">
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Weekly product updates</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" checked>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Weekly blog digest</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="text-right mt-3 my-3">
+                            <button type="submit" class="btn btn-primary" >Save changes</button>&nbsp;
+                            <button type="reset" class="btn btn-default">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        {% if messages %}
+            {% for message in messages %}
+                Swal.fire({
+                    icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+                    title: "{{ message.tags|title }}",
+                    text: "{{ message|escapejs }}",
+                    confirmButtonColor: "#3085d6",
+                });
+            {% endfor %}
+        {% endif %}
+    });
+    </script>
+  
+</body>
+
+</html>

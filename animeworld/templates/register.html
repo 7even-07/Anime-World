@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Registration Form </title>
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background-image: url("{% static 'img/login-background/bg-2.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Registration</div>
+    <div class="content">
+      <!-- Registration form -->
+      <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <div class="user-details">
+          <!-- Input for Full Name -->
+          <div class="input-box">
+            <span class="details">Full Name</span>
+            <input type="text" name="full_name" placeholder="Enter your name" required>
+          </div>
+          <!-- Input for Username -->
+          <div class="input-box">
+            <span class="details">Username</span>
+            <input type="text" name="username" placeholder="Enter your username" required>
+          </div>
+          <!-- Input for Email -->
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="text" name="email" placeholder="Enter your email" required>
+          </div>
+          <!-- Input for Phone Number -->
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input type="text" name="phone" placeholder="Enter your number" required>
+          </div>
+          <!-- Input for Password -->
+          <div class="input-box">
+            <span class="details">Password</span>
+            <div class="password-wrapper">
+              <input type="password" name="password" id="password" placeholder="Enter your password" required>
+              <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
+            </div>
+          </div>
+          <!-- Input for Confirm Password -->
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <div class="password-wrapper">
+              <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+              <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('confirm_password', this)"></i>
+            </div>
+
+          </div>
+        </div>
+        <div class="gender-details">
+          <!-- Radio buttons for gender selection -->
+          <input type="radio" name="gender" value="M" id="dot-1">
+          <input type="radio" name="gender" value="F" id="dot-2">
+          <input type="radio" name="gender" value="O" id="dot-3">
+          <span class="gender-title">Gender</span>
+          <div class="category">
+            <!-- Label for Male -->
+            <label for="dot-1">
+              <span class="dot one"></span>
+              <span class="gender">Male</span>
+            </label>
+            <!-- Label for Female -->
+            <label for="dot-2">
+              <span class="dot two"></span>
+              <span class="gender">Female</span>
+            </label>
+            <!-- Label for Prefer not to say -->
+            <label for="dot-3">
+              <span class="dot three"></span>
+              <span class="gender">Prefer not to say</span>
+            </label>
+          </div>
+        </div>
+        <!-- Submit button -->
+        <div class="button">
+          <input type="submit" value="Register">
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- jQuery -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+  <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- custom  -->
+    <script src="{% static 'js/custom.js' %}"></script>
+  {% if messages %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        "{% for message in messages %}"
+          Swal.fire({
+            icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+            title: "{{ message.tags|title }}",
+            text: "{{ message }}",
+            confirmButtonColor: "#3085d6",
+          });
+        "{% endfor %}"
+      });
+    </script>
+  {% endif %}
+</body>
+</html>
+
+

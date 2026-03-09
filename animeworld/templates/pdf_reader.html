@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="awc-pdf-reader">
+    <h2>{{ comic.title }}</h2>
+
+    <div id="pdf-viewer"></div>
+
+    <div class="awc-pdf-buttons">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const url = "{{ comic.comics.url }}";  // PDF URL
+let pdfDoc = null;
+let currentBatch = "{{ start_page }}"- 1;
+const pagesPerBatch = 20;
+
+const viewer = document.getElementById("pdf-viewer");
+
+pdfjsLib.getDocument(url).promise.then(pdf => {
+    pdfDoc = pdf;
+    renderBatch();
+});
+
+async function renderBatch(resetScroll = false) {
+    viewer.innerHTML = "";
+
+    const start = currentBatch + 1;
+    const end = Math.min(start + pagesPerBatch - 1, pdfDoc.numPages);
+
+    for (let i = start; i <= end; i++) {
+        const page = await pdfDoc.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        viewer.appendChild(canvas);
+    }
+
+    // Only scroll to top if explicitly requested (like on Next/Prev click)
+    if (resetScroll) {
+        viewer.scrollTop = 0;
+    }
+}
+
+document.getElementById("nextBtn").onclick = () => {
+    if ((currentBatch + pagesPerBatch) < pdfDoc.numPages) {
+        currentBatch += pagesPerBatch;
+        renderBatch(true); // scroll reset
+    }
+}
+
+document.getElementById("prevBtn").onclick = () => {
+    if (currentBatch - pagesPerBatch >= 0) {
+        currentBatch -= pagesPerBatch;
+        renderBatch(true); // scroll reset
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load youtube_filters %}
+
+{% block content %}
+
+    <section class="hero-section overflow-hidden">
+		<div class="hero-slider owl-carousel">
+			<div class="hero-item set-bg d-flex align-items-center justify-content-center text-center" data-setbg="{{ recent_comic.img_src.url }}">
+				<!-- <div class="container">
+					<h2>Game on!</h2>
+					<p>Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor,<br>sit amet elementum lorem. Ut cursus tempor turpis.</p>
+					<a href="#" class="site-btn">Read More  <img src="{% static 'img/icons/double-arrow.png' %}" alt="#"/></a>
+				</div> -->
+			</div>
+		</div>
+	</section>
+
+    <section class="awc-comic-detail-section">
+        <div class="container">
+            <div class="row awc-comic-card">
+
+            <!-- Cover -->
+            <div class="col-md-4 text-center">
+                <img src="{{ recent_comic.img_src.url }}" class="awc-comic-cover">
+            </div>
+
+            <!-- Info -->
+            <div class="col-md-8">
+
+                <h2 class="awc-comic-title">{{ recent_comic.title }}</h2>
+
+                <!-- Categories -->
+                <div class="awc-comic-categories">
+                {% for cat in recent_comic.category.all %}
+                    <span class="awc-category-badge">{{ cat.name }}</span>
+                {% endfor %}
+                </div>
+
+                <p class="awc-comic-desc">{{ recent_comic.desc }}</p>
+
+                <!-- Reading buttons -->
+                <div class="awc-reading-buttons">
+                <a href="{% url 'comic_reader_first' recent_comic.id %}" class="awc-btn awc-btn-primary">
+                    ▶ Read First
+                </a>
+
+                <a href="{% url 'comic_reader_last' recent_comic.id %}" class="awc-btn awc-btn-dark">
+                    ⏩ Read Last
+                </a>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="awc-action-buttons">
+                <button class="awc-btn awc-btn-outline-warning">🔖 Bookmark</button>
+                <button class="awc-btn awc-btn-outline-info">💬 Comment</button>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="awc-related-comics-section">
+        <div class="container">
+            <h3 class="awc-related-title">Related Comics</h3>
+            <div class="row awc-related-row">
+                {% for rc in comics %}
+                <div class="col-md-3 col-sm-6 awc-related-col">
+                    <a href="{% url 'comic_detail' rc.id %}" class="awc-related-card">
+                        <img src="{{ rc.img_src.url }}" alt="{{ rc.title }}" class="awc-related-img">
+                        <p class="awc-related-title-text">{{ rc.title }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
